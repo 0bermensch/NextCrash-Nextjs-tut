@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+import { ChartColumnBigIcon } from "lucide-react";
+import Link from "next/link";
+import { ClerkProvider, SignInButton, SignUpButton, SignedOut, SignedIn } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
   subsets: ["latin"],
 });
 
@@ -23,12 +24,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.className} antialiased`}
       >
+        <nav className="bg-primary p-4 text-white h-20 flex items-center justify-between">
+          <Link href="/" className="font-bold text-2xl flex gap-1 items-center" >
+            <ChartColumnBigIcon className="text-lime-500"/>NextCash
+          </Link>
+        <div>
+          <SignedOut>
+            <div className="flex items-center">
+{/* as child does render anything in the Button element, it passes everything like props and styling of the shadcn ui button to the nested element in */}
+              <Button asChild variant="link" className="text-white">
+                <SignInButton/>
+              </Button>
+                <Button asChild variant="link" className="text-white">
+                <SignUpButton/>
+              </Button>
+              
+            </div>
+          </SignedOut>
+          <SignedIn>
+            Signed In
+          </SignedIn>
+        </div>
+        </nav>
         {children}
       </body>
     </html>
+    </ClerkProvider>
   );
 }
+
+
+// ClerkProvider is used for binding the whole application under the Clerk authentication, its a library that allows users different methodods authentication
