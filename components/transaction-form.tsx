@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addDays, format, setDate } from "date-fns";
+import { addDays, format } from "date-fns";
 import {
     Form,
     FormControl,
@@ -18,11 +18,14 @@ import {
     SelectValue,
 } from "./ui/select";
 // import { Select } from "react-day-picker"
+import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { Calendar, CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { date, z } from "zod";
+import { z } from "zod";
 import { Button } from "./ui/button";
+import { Calendar } from "./ui/calendar";
+import { Input } from "./ui/input";
 
 
 // I need to run javascript in the browser, so the "use-client" is used to make this client-side rendering
@@ -117,46 +120,75 @@ const TransactionForm = () => {
                             </FormItem>
                         )
                     }} />
-                    <FormField control={form.control} name="categoryId" render={({ field }) => {
+                    <FormField control={form.control} name="transactionDate" render={({ field }) => {
                         return (
                             <FormItem>
                                 <FormLabel>Transaction Date</FormLabel>
                                 <FormControl>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                data-empty={!date}
-                                                className="field.value-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
-                                            >
-                                                <CalendarIcon />
-                                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0">
-                                            <Calendar
-  mode="single"
-  selected={date}
-  onSelect={setDate}
-  /* ✨ override the icons so they strip the prop that upsets React 19 */
-  components={{
-    IconLeft: ({ selected, ...props }) => (
-      <CalendarIcon className="h-4 w-4" {...props} />
-    ),
-    IconRight: ({ selected, ...props }) => (
-      <CalendarIcon className="h-4 w-4" {...props} />
-    ),
-  }}
-/>
-
-                                        </PopoverContent>
-                                    </Popover>
-
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                          disabled={{
+                            after: new Date(),
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )
+                    }} />
+                    <FormField control={form.control} name="amount" render={({ field }) => {
+                        return (
+                            <FormItem>
+                                <FormLabel>Amount</FormLabel>
+                                <FormControl>
+                                    <Input {...field}type="number"/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )
                     }} />
+                </fieldset>
+                <fieldset disabled={form.formState.isSubmitting}
+          className="mt-5 flex flex-col gap-5">
+                    <FormField control={form.control} name="description" render={({ field }) => {
+                        return (
+                            <FormItem>
+                                <FormLabel>Description</FormLabel>
+                                <FormControl>
+                                    <Input {...field}/>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )
+                    }} />
+
+{/* When the submit button is clicked, there will be a validation ran on the input elements before even checking the data input. This is all done in the background by shadcn ui */}
+                    <Button type="submit">
+                    Submit
+                    </Button>
                 </fieldset>
 
             </form>
