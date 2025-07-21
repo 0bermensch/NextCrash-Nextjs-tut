@@ -1,9 +1,12 @@
 import TransactionForm from "@/components/transaction-form"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { getCategories } from "@/data/geCategories"
 import Link from "next/link"
 
-const NewTransactionPage = () => {
+const NewTransactionPage = async () => {
+    const categories = await getCategories();
+    console.log({categories})
     return (
         <div className='max-w-screen-xl mx-auto py-10'>
             <Breadcrumb>
@@ -34,7 +37,8 @@ const NewTransactionPage = () => {
               <CardTitle>New Transaction</CardTitle>
                 </CardHeader>
                <CardContent>
-                <TransactionForm/>
+                <newTransactionForm/>
+                <TransactionForm categories={categories}/>
                </CardContent>
             </Card>
         </div>
