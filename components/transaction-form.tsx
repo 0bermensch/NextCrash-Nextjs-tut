@@ -33,7 +33,7 @@ import { Input } from "./ui/input";
 
 
 //z.coerce - accept whatever, convert, then validate. html form control always gives string
-const transactionFormSchema = z.object({
+export const transactionFormSchema = z.object({
     transactionType: z.enum(["income", "expense"]),
     categoryId: z.coerce.number().positive("Please select a category"),
     transactionDate: z.coerce.date().max(addDays(new Date(), 1), "Transaction date cannot be in the future"),
@@ -59,9 +59,10 @@ const transactionFormSchema = z.object({
 
 type TransactionFormProps = {
     categories: Category[];
+    onSubmit: (data: z.infer<typeof transactionFormSchema>) => Promise<void>;
 };
 
-const TransactionForm = ({ categories }: TransactionFormProps) => {
+const TransactionForm = ({ categories, onSubmit }: TransactionFormProps) => {
     const form = useForm<z.infer<typeof transactionFormSchema>>({
         resolver: zodResolver(transactionFormSchema),
         defaultValues: {
@@ -73,17 +74,15 @@ const TransactionForm = ({ categories }: TransactionFormProps) => {
         },
     });
 
-    const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
-        // your submit logic
-    };
+
 
     const transactionType = form.watch("transactionType")
     const filteredCategories = categories.filter(category => category.type === transactionType)
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <fieldset className="grid grid-cols-2 gap-y-5 gap-x-2 items-start">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <fieldset disabled={form.formState.isSubmitting} className="grid grid-cols-2 gap-y-5 gap-x-2 items-start">
                     {/* transactionType */}
                     <FormField
                         control={form.control}

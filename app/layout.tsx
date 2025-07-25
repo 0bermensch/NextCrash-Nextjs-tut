@@ -1,10 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider, SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { ChartColumnBigIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
-import { ChartColumnBigIcon } from "lucide-react";
 import Link from "next/link";
-import { ClerkProvider, SignInButton, SignUpButton, SignedOut, SignedIn } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
+import "./globals.css";
 import UserDropdown from "./user-dropdown";
 
 
@@ -53,6 +54,7 @@ export default function RootLayout({
         </div>
         </nav>
         {children}
+        <Toaster richColors/>
       </body>
     </html>
     </ClerkProvider>

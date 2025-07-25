@@ -1,12 +1,12 @@
-import TransactionForm from "@/components/transaction-form"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getCategories } from "@/data/geCategories"
 import Link from "next/link"
+import NewTransactionForm from "./new-transaction-form"
 
 const NewTransactionPage = async () => {
     const categories = await getCategories();
-    console.log({categories})
+    console.log({ categories })
     return (
         <div className='max-w-screen-xl mx-auto py-10'>
             <Breadcrumb>
@@ -34,12 +34,12 @@ const NewTransactionPage = async () => {
             </Breadcrumb>
             <Card className="mt-4 max-w-screen-md">
                 <CardHeader>
-              <CardTitle>New Transaction</CardTitle>
+                    <CardTitle>New Transaction</CardTitle>
                 </CardHeader>
-               <CardContent>
-                <newTransactionForm/>
-                <TransactionForm categories={categories}/>
-               </CardContent>
+                <CardContent>
+                    <NewTransactionForm categories={categories} />
+                    {/* <TransactionForm /> */}
+                </CardContent>
             </Card>
         </div>
     )
