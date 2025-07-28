@@ -1,12 +1,14 @@
-import Link from 'next/link'
+import Cashflow from "./cashflow";
+import RecentTransactions from "./recent-transactions";
 
 const DashboardPage = () => {
   return (
-<Link href="/dashboard/transactions/new">
-New Transaction
-</Link>
+    <div className="max-w-screen-xl mx-auto py-5">
+      <h1 className="text-4xl font-semibold pb-5">Dashboard</h1>
+      <Cashflow />
+      <RecentTransactions />
+    </div>
+  );
+};
 
-)
-}
-
-export default DashboardPage
+export default DashboardPage;

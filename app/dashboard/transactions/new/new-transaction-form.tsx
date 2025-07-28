@@ -25,7 +25,6 @@ const NewTransactionForm = ({ categories }: NewTransactionFormProps) => {
             toast.error("error",
                 {
                     description: result.message,
-                    type: "error"
                 })
             return
         }
