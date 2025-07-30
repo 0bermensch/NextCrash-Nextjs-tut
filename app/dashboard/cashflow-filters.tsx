@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 type Props = {
   year: number;
@@ -14,8 +15,14 @@ type Props = {
 };
 
 export default function CashflowFilters({ year, yearsRange }: Props) {
+  const router = useRouter();
   return (
-    <Select>
+    <Select
+      defaultValue={year.toString()}
+      onValueChange={(value) => {
+        router.push(`/dashboard?cfyear=${value}`);
+      }}
+    >
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>

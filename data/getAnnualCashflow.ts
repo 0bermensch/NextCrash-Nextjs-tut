@@ -39,7 +39,7 @@ export async function getAnnualCashflow(year: number) {
   const annualCashflow: {
     month: number;
     income: number;
-    expense: number;
+    expenses: number;
   }[] = [];
 
   for (let i = 1; i <= 12; i++) {
@@ -47,10 +47,11 @@ export async function getAnnualCashflow(year: number) {
     annualCashflow.push({
       month: i,
       income: Number(monthlyCashflow?.totalIncome ?? 0),
-      expense: Number(monthlyCashflow?.totalIncome ?? 0),
+      expenses: Number(monthlyCashflow?.totalExpenses ?? 0),
     });
   }
 
-  console.log("can i see" + JSON.stringify(cashflow, null, 2));
-  console.log("anal" + JSON.stringify(annualCashflow, null, 2));
+  //   console.log("can i see" + JSON.stringify(cashflow, null, 2));
+  //   console.log("anal" + JSON.stringify(annualCashflow, null, 2));
+  return annualCashflow;
 }

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/table";
 import { getRecentTransactions } from "@/data/getRecentTransactions";
 import { format } from "date-fns";
-import { Badge } from "lucide-react";
 import Link from "next/link";
 import numeral from "numeral";
 
